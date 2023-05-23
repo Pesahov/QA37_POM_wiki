@@ -1,4 +1,5 @@
 import manage.ConfigurationWiki;
+import manage.MyDataProvider;
 import models.User;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -41,9 +42,23 @@ public class Login extends ConfigurationWiki {
         Assert.assertEquals(infOut,"Log out");
 
     }
-    @Test
-    public void login4(){
-        User user = User.builder().userName("juliakliot.jk").password("Misha240613").build();
+    @Test(dataProvider = "loginData", dataProviderClass = MyDataProvider.class)
+    public void login4(User user){
+        //User user = User.builder().userName("juliakliot.jk").password("Misha240613").build();
+        String infLog = new MainScreen(driver)
+                .clickTheFlowButton()
+                .cklickTheLoginButton()
+                .fillInLoginForm(user)
+                .clickTheFlowButton()
+                .logOut()
+                .clickTheFlowButton()
+                .getIngLog();
+        Assert.assertEquals(infLog, "Log in to Wikipedia");
+
+    }
+    @Test(dataProvider = "loginDataCsv", dataProviderClass = MyDataProvider.class)
+    public void login5(User user){
+        // User user = User.builder().userName("juliakliot.jk").password("Misha240613").build();
         String infLog = new MainScreen(driver)
                 .clickTheFlowButton()
                 .cklickTheLoginButton()
